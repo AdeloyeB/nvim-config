@@ -64,13 +64,16 @@ require("lazy").setup({
   -- ===================
   {
     "nvim-treesitter/nvim-treesitter",
+    lazy = false,
     build = ":TSUpdate",
     config = function()
-      require("nvim-treesitter.configs").setup({
-        ensure_installed = { "rust", "lua", "vim", "vimdoc", "javascript", "typescript", "python", "json", "toml", "markdown" },
-        auto_install = true,
-        highlight = { enable = true },
-        indent = { enable = true },
+      require("nvim-treesitter").install({ "rust", "lua", "vim", "vimdoc", "javascript", "typescript", "python", "json", "toml", "markdown" })
+
+      -- Enable treesitter highlighting for all supported filetypes
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function()
+          pcall(vim.treesitter.start)
+        end,
       })
     end,
   },
