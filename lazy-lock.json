@@ -1,0 +1,5 @@
+{
+  "colorbuddy.nvim": { "branch": "master", "commit": "8b968581e5c19d22a861d5f3fe5dbd83394fa681" },
+  "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
+  "warped.nvim": { "branch": "main", "commit": "46a2c1cabb58c8d00b87ebe001f3915566b839f5" }
+}
