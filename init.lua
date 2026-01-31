@@ -35,6 +35,7 @@ vim.opt.smartcase = true
 vim.opt.undofile = true
 vim.opt.swapfile = false
 vim.opt.backup = false
+vim.opt.backspace = "indent,eol,start"
 
 -- Load plugins
 require("lazy").setup({
