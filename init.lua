@@ -98,28 +98,29 @@ require("lazy").setup({
     "neovim/nvim-lspconfig",
     dependencies = { "williamboman/mason-lspconfig.nvim" },
     config = function()
-      local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       -- Rust
-      lspconfig.rust_analyzer.setup({
+      vim.lsp.config.rust_analyzer = {
         capabilities = capabilities,
         settings = {
           ["rust-analyzer"] = {
             checkOnSave = { command = "clippy" },
           },
         },
-      })
+      }
+      vim.lsp.enable("rust_analyzer")
 
       -- Lua
-      lspconfig.lua_ls.setup({
+      vim.lsp.config.lua_ls = {
         capabilities = capabilities,
         settings = {
           Lua = {
             diagnostics = { globals = { "vim" } },
           },
         },
-      })
+      }
+      vim.lsp.enable("lua_ls")
 
       -- LSP Keymaps
       vim.api.nvim_create_autocmd("LspAttach", {
