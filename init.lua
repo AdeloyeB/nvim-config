@@ -84,7 +84,7 @@ require("lazy").setup({
         [[          ⠈⠙⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠋⠁        ]],
         [[                  ⠉⠉⠉⠉⠉⠉⠉⠉                ]],
         [[                                              ]],
-        [[            P I K A C H U   V I M             ]],
+        [[              Y Ū S H A   V I M               ]],
       }
 
       -- Buttons
