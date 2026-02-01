@@ -300,6 +300,16 @@ require("lazy").setup({
   },
 
   -- ===================
+  -- SCOPE (Scoped Buffers per Tab)
+  -- ===================
+  {
+    "tiagovla/scope.nvim",
+    config = function()
+      require("scope").setup({})
+    end,
+  },
+
+  -- ===================
   -- OIL (File Explorer)
   -- ===================
   {
