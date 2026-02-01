@@ -335,7 +335,17 @@ require("lazy").setup({
     "folke/which-key.nvim",
     event = "VeryLazy",
     config = function()
-      require("which-key").setup()
+      require("which-key").setup({
+        win = {
+          border = "rounded",
+        },
+      })
+      -- Warp theme colors for which-key
+      vim.api.nvim_set_hl(0, "WhichKey", { fg = "#00c2ff" })           -- Keys in accent blue
+      vim.api.nvim_set_hl(0, "WhichKeyGroup", { fg = "#00c2ff" })      -- Group names
+      vim.api.nvim_set_hl(0, "WhichKeyDesc", { fg = "#ffffff" })       -- Descriptions white
+      vim.api.nvim_set_hl(0, "WhichKeyFloat", { bg = "#0d0d0d" })      -- Background dark
+      vim.api.nvim_set_hl(0, "WhichKeyBorder", { fg = "#00c2ff" })     -- Border accent blue
     end,
   },
 
