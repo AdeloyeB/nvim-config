@@ -1,4 +1,5 @@
 # Neovim Config
+<img width="3245" height="1180" alt="image" src="https://github.com/user-attachments/assets/991548fd-fb5a-47a2-86f9-653efb5f0056" />
 
 A fast, modern Neovim configuration optimized for Rust development.
 
