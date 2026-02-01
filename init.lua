@@ -108,7 +108,6 @@ require("lazy").setup({
 
       dashboard.section.footer.opts.hl = "Comment"
       dashboard.section.header.opts.hl = "AlphaHeader"
-      dashboard.section.buttons.opts.hl = "AlphaButtons"
 
       -- Set highlight for each button
       for _, button in ipairs(dashboard.section.buttons.val) do
@@ -116,12 +115,21 @@ require("lazy").setup({
         button.opts.hl_shortcut = "AlphaShortcut"
       end
 
+      -- Set highlights BEFORE setup (using Warp accent color)
+      vim.api.nvim_set_hl(0, "AlphaHeader", { fg = "#FFD700" })  -- Yellow for Pikachu
+      vim.api.nvim_set_hl(0, "AlphaButtons", { fg = "#00c2ff" }) -- Warp accent blue
+      vim.api.nvim_set_hl(0, "AlphaShortcut", { fg = "#00c2ff", bold = true }) -- Warp accent blue
+
       alpha.setup(dashboard.opts)
 
-      -- Highlights
-      vim.api.nvim_set_hl(0, "AlphaHeader", { fg = "#FFD700" })  -- Yellow for Pikachu
-      vim.api.nvim_set_hl(0, "AlphaButtons", { fg = "#5C9FD8" }) -- Warp blue for buttons
-      vim.api.nvim_set_hl(0, "AlphaShortcut", { fg = "#5C9FD8", bold = true }) -- Blue for shortcut keys
+      -- Re-apply highlights after colorscheme loads (in case it overwrites)
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        callback = function()
+          vim.api.nvim_set_hl(0, "AlphaHeader", { fg = "#FFD700" })
+          vim.api.nvim_set_hl(0, "AlphaButtons", { fg = "#00c2ff" })
+          vim.api.nvim_set_hl(0, "AlphaShortcut", { fg = "#00c2ff", bold = true })
+        end,
+      })
     end,
   },
 
