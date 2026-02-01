@@ -40,6 +40,81 @@ vim.opt.backspace = "indent,eol,start"
 -- Load plugins
 require("lazy").setup({
   -- ===================
+  -- PERSISTENCE (Session Management)
+  -- ===================
+  {
+    "folke/persistence.nvim",
+    event = "BufReadPre",
+    config = function()
+      require("persistence").setup({
+        dir = vim.fn.stdpath("state") .. "/sessions/",
+        options = { "buffers", "curdir", "tabpages", "winsize" },
+      })
+    end,
+  },
+
+  -- ===================
+  -- ALPHA (Dashboard)
+  -- ===================
+  {
+    "goolord/alpha-nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      local alpha = require("alpha")
+      local dashboard = require("alpha.themes.dashboard")
+
+      -- Pikachu ASCII Art
+      dashboard.section.header.val = {
+        [[                                              ]],
+        [[         ⢀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀        ]],
+        [[        ⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦      ]],
+        [[       ⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧     ]],
+        [[      ⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆    ]],
+        [[      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠛⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿    ]],
+        [[      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿    ]],
+        [[      ⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠃⠀⠀⠀⠘⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿    ]],
+        [[      ⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⣠⣴⣶⣶⣦⣶⣶⣦⣄⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿    ]],
+        [[      ⣿⣿⣿⣿⣿⣿⣿⣿⠁⢸⣿⣿⣿⡟⢻⣿⣿⣿⣿⡇⠈⣿⣿⣿⣿⣿⣿⣿⣿    ]],
+        [[      ⣿⣿⣿⣿⣿⣿⣿⣿⠀⠸⣿⣿⠟⠀⠀⠻⣿⣿⠟⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿    ]],
+        [[      ⣿⣿⣿⣿⣿⣿⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣿⣿⣿⣿⣿    ]],
+        [[      ⢿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⣤⣤⣤⠀⠀⠀⢀⣿⣿⣿⣿⣿⣿⣿⣿⡿    ]],
+        [[      ⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣄⠀⠀⠈⠛⠁⠀⠀⣠⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇    ]],
+        [[       ⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣤⣤⣤⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟     ]],
+        [[        ⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋      ]],
+        [[          ⠈⠙⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠋⠁        ]],
+        [[                  ⠉⠉⠉⠉⠉⠉⠉⠉                ]],
+        [[                                              ]],
+        [[            P I K A C H U   V I M             ]],
+      }
+
+      -- Buttons
+      dashboard.section.buttons.val = {
+        dashboard.button("s", "  Open Last Session", ":lua require('persistence').load()<CR>"),
+        dashboard.button("f", "  Find File", ":Telescope find_files<CR>"),
+        dashboard.button("r", "  Recent Files", ":Telescope oldfiles<CR>"),
+        dashboard.button("g", "  Live Grep", ":Telescope live_grep<CR>"),
+        dashboard.button("e", "  New File", ":ene <BAR> startinsert<CR>"),
+        dashboard.button("c", "  Config", ":e ~/.config/nvim/init.lua<CR>"),
+        dashboard.button("q", "  Quit", ":qa<CR>"),
+      }
+
+      -- Footer
+      dashboard.section.footer.val = function()
+        local stats = require("lazy").stats()
+        return "⚡ " .. stats.loaded .. "/" .. stats.count .. " plugins loaded"
+      end
+
+      dashboard.section.footer.opts.hl = "Comment"
+      dashboard.section.header.opts.hl = "AlphaHeader"
+
+      alpha.setup(dashboard.opts)
+
+      -- Highlight for Pikachu (yellow)
+      vim.api.nvim_set_hl(0, "AlphaHeader", { fg = "#FFD700" })
+    end,
+  },
+
+  -- ===================
   -- TELESCOPE (Fuzzy Finder)
   -- ===================
   {
