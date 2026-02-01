@@ -414,6 +414,41 @@ require("lazy").setup({
   },
 
   -- ===================
+  -- NVIM-TREE (File Explorer)
+  -- ===================
+  {
+    "nvim-tree/nvim-tree.lua",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("nvim-tree").setup({
+        view = {
+          width = 35,
+          side = "left",
+        },
+        renderer = {
+          highlight_git = true,
+          icons = {
+            show = {
+              git = true,
+              folder = true,
+              file = true,
+            },
+          },
+        },
+        filters = {
+          dotfiles = false,
+        },
+        git = {
+          enable = true,
+          ignore = false,
+        },
+      })
+      vim.keymap.set("n", "<leader>t", ":NvimTreeToggle<CR>", { desc = "Toggle file tree", silent = true })
+      vim.keymap.set("n", "<leader>tf", ":NvimTreeFindFile<CR>", { desc = "Find file in tree", silent = true })
+    end,
+  },
+
+  -- ===================
   -- OIL (File Explorer)
   -- ===================
   {
