@@ -109,16 +109,16 @@ require("lazy").setup({
       dashboard.section.footer.opts.hl = "Comment"
       dashboard.section.header.opts.hl = "AlphaHeader"
 
-      -- Set only the shortcut key to blue
+      -- Set shortcut highlight for each button
       for _, button in ipairs(dashboard.section.buttons.val) do
-        button.opts.hl_shortcut = "AlphaShortcut"
+        button.opts.hl_shortcut = { { "AlphaShortcut", 0, 3 } }
       end
 
-      -- Highlights
-      vim.api.nvim_set_hl(0, "AlphaHeader", { fg = "#FFD700" })  -- Yellow for Pikachu
-      vim.api.nvim_set_hl(0, "AlphaShortcut", { fg = "#00c2ff", bold = true }) -- Blue shortcut keys only
-
       alpha.setup(dashboard.opts)
+
+      -- Highlights (set after setup)
+      vim.api.nvim_set_hl(0, "AlphaHeader", { fg = "#FFD700" })  -- Yellow for Pikachu
+      vim.api.nvim_set_hl(0, "AlphaShortcut", { fg = "#00c2ff", bold = true }) -- Blue shortcut keys
     end,
   },
 
