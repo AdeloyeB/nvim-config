@@ -248,6 +248,19 @@ require("lazy").setup({
           component_separators = "|",
           section_separators = "",
         },
+        -- Show window number at top of each window
+        winbar = {
+          lualine_a = {
+            { function() return " " .. vim.api.nvim_win_get_number(0) end },
+          },
+          lualine_b = { "filename" },
+        },
+        inactive_winbar = {
+          lualine_a = {
+            { function() return " " .. vim.api.nvim_win_get_number(0) end },
+          },
+          lualine_b = { "filename" },
+        },
       })
     end,
   },
@@ -259,6 +272,30 @@ require("lazy").setup({
     "numToStr/Comment.nvim",
     config = function()
       require("Comment").setup()
+    end,
+  },
+
+  -- ===================
+  -- AUTOPAIRS (Auto close brackets)
+  -- ===================
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = function()
+      require("nvim-autopairs").setup({})
+    end,
+  },
+
+  -- ===================
+  -- WINDOW PICKER (Visual labels)
+  -- ===================
+  {
+    "yorickpeterse/nvim-window",
+    config = function()
+      require("nvim-window").setup({
+        chars = { '1', '2', '3', '4', '5', '6', '7', '8', '9' },
+      })
+      vim.keymap.set("n", "<leader>ww", require("nvim-window").pick, { desc = "Pick window" })
     end,
   },
 
@@ -329,6 +366,66 @@ require("lazy").setup({
   },
 
   -- ===================
+  -- LSP SIGNATURE (Function hints)
+  -- ===================
+  {
+    "ray-x/lsp_signature.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("lsp_signature").setup({
+        bind = true,
+        floating_window = true,
+        hint_enable = true,
+        hint_prefix = "→ ",
+        handler_opts = {
+          border = "rounded",
+        },
+      })
+    end,
+  },
+
+  -- ===================
+  -- FORMATTER (Prettier, etc.)
+  -- ===================
+  {
+    "stevearc/conform.nvim",
+    config = function()
+      require("conform").setup({
+        formatters_by_ft = {
+          rust = { "rustfmt" },
+          javascript = { "prettier" },
+          typescript = { "prettier" },
+          javascriptreact = { "prettier" },
+          typescriptreact = { "prettier" },
+          css = { "prettier" },
+          html = { "prettier" },
+          json = { "prettier" },
+          yaml = { "prettier" },
+          markdown = { "prettier" },
+        },
+        format_on_save = function(bufnr)
+          return {
+            timeout_ms = 2000,
+            lsp_format = "fallback",
+          }
+        end,
+      })
+    end,
+  },
+
+  -- ===================
+  -- MARKDOWN RENDERING
+  -- ===================
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+    ft = { "markdown" },
+    config = function()
+      require("render-markdown").setup({})
+    end,
+  },
+
+  -- ===================
   -- UNDOTREE (Undo History)
   -- ===================
   {
@@ -390,3 +487,10 @@ vim.keymap.set("n", "<leader>w", ":w<CR>", { desc = "Save file" })
 
 -- Replace word under cursor
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace word" })
+
+-- Window switching by number (direct jump)
+vim.keymap.set("n", "<leader>1", "1<C-w>w", { desc = "Window 1" })
+vim.keymap.set("n", "<leader>2", "2<C-w>w", { desc = "Window 2" })
+vim.keymap.set("n", "<leader>3", "3<C-w>w", { desc = "Window 3" })
+vim.keymap.set("n", "<leader>4", "4<C-w>w", { desc = "Window 4" })
+
