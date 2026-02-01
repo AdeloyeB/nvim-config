@@ -106,19 +106,40 @@ require("lazy").setup({
         return "⚡ " .. stats.loaded .. "/" .. stats.count .. " plugins loaded"
       end
 
-      dashboard.section.footer.opts.hl = "Comment"
-      dashboard.section.header.opts.hl = "AlphaHeader"
+      -- Define highlights BEFORE they're referenced
+      vim.api.nvim_set_hl(0, "AlphaHeader", { fg = "#FFD700" })  -- Yellow for Pikachu
+      vim.api.nvim_set_hl(0, "AlphaShortcut", { fg = "#00c2ff", bold = true }) -- Blue shortcut keys
+      vim.api.nvim_set_hl(0, "AlphaFooter", { fg = "#FFD700" })  -- Yellow for footer
 
-      -- Set shortcut highlight for each button
+      dashboard.section.header.opts.hl = "AlphaHeader"
+      dashboard.section.footer.opts.hl = "AlphaFooter"
+
+      -- Set shortcut highlight for each button (string format, not table)
       for _, button in ipairs(dashboard.section.buttons.val) do
-        button.opts.hl_shortcut = { { "AlphaShortcut", 0, 3 } }
+        button.opts.hl_shortcut = "AlphaShortcut"
       end
 
       alpha.setup(dashboard.opts)
 
-      -- Highlights (set after setup)
-      vim.api.nvim_set_hl(0, "AlphaHeader", { fg = "#FFD700" })  -- Yellow for Pikachu
-      vim.api.nvim_set_hl(0, "AlphaShortcut", { fg = "#00c2ff", bold = true }) -- Blue shortcut keys
+      -- Re-apply after colorscheme loads (colorscheme loads after plugins)
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        callback = function()
+          vim.api.nvim_set_hl(0, "AlphaHeader", { fg = "#FFD700" })
+          vim.api.nvim_set_hl(0, "AlphaShortcut", { fg = "#00c2ff", bold = true })
+          vim.api.nvim_set_hl(0, "AlphaFooter", { fg = "#FFD700" })
+        end,
+      })
+
+      -- Also apply on VimEnter to catch initial load
+      vim.api.nvim_create_autocmd("VimEnter", {
+        callback = function()
+          vim.schedule(function()
+            vim.api.nvim_set_hl(0, "AlphaHeader", { fg = "#FFD700" })
+            vim.api.nvim_set_hl(0, "AlphaShortcut", { fg = "#00c2ff", bold = true })
+            vim.api.nvim_set_hl(0, "AlphaFooter", { fg = "#FFD700" })
+          end)
+        end,
+      })
     end,
   },
 
