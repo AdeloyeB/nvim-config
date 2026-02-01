@@ -44,7 +44,7 @@ require("lazy").setup({
   -- ===================
   {
     "folke/persistence.nvim",
-    event = "BufReadPre",
+    lazy = false,  -- Load immediately so dashboard can use it
     config = function()
       require("persistence").setup({
         dir = vim.fn.stdpath("state") .. "/sessions/",
@@ -58,6 +58,8 @@ require("lazy").setup({
   -- ===================
   {
     "goolord/alpha-nvim",
+    lazy = false,  -- Load immediately on startup
+    priority = 1000,  -- Load before other plugins
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       local alpha = require("alpha")
