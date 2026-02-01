@@ -107,7 +107,7 @@ require("lazy").setup({
       end
 
       -- Define highlights BEFORE they're referenced
-      vim.api.nvim_set_hl(0, "AlphaHeader", { fg = "#FFD700" })  -- Yellow for Pikachu
+      vim.api.nvim_set_hl(0, "AlphaHeader", { fg = "#ffffff" })  -- White for ASCII art
       vim.api.nvim_set_hl(0, "AlphaShortcut", { fg = "#00c2ff", bold = true }) -- Blue shortcut keys
       vim.api.nvim_set_hl(0, "AlphaFooter", { fg = "#FFD700" })  -- Yellow for footer
 
@@ -124,7 +124,7 @@ require("lazy").setup({
       -- Re-apply after colorscheme loads (colorscheme loads after plugins)
       vim.api.nvim_create_autocmd("ColorScheme", {
         callback = function()
-          vim.api.nvim_set_hl(0, "AlphaHeader", { fg = "#FFD700" })
+          vim.api.nvim_set_hl(0, "AlphaHeader", { fg = "#ffffff" })
           vim.api.nvim_set_hl(0, "AlphaShortcut", { fg = "#00c2ff", bold = true })
           vim.api.nvim_set_hl(0, "AlphaFooter", { fg = "#FFD700" })
         end,
@@ -134,7 +134,7 @@ require("lazy").setup({
       vim.api.nvim_create_autocmd("VimEnter", {
         callback = function()
           vim.schedule(function()
-            vim.api.nvim_set_hl(0, "AlphaHeader", { fg = "#FFD700" })
+            vim.api.nvim_set_hl(0, "AlphaHeader", { fg = "#ffffff" })
             vim.api.nvim_set_hl(0, "AlphaShortcut", { fg = "#00c2ff", bold = true })
             vim.api.nvim_set_hl(0, "AlphaFooter", { fg = "#FFD700" })
           end)
